@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BhavaGeetha's Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for 'Montserrat' -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Body Styles - Dark Theme Only */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a202c; /* Deep dark background */
+            color: #e2e8f0; /* Light text for readability */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            scroll-behavior: smooth; /* Smooth scrolling for navigation */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        /* --- Page Loader Styles --- */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #1a202c; /* Match body background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000; /* Ensure it's above everything else */
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #page-loader.hidden-loader {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Disable interactions when hidden */
+        }
+
+        .welcome-text {
+            font-family: 'Times New Roman', Times, serif; /* Times New Roman with fallbacks */
+            font-weight: bold; /* Bold as requested */
+            font-size: 3.5rem; /* Large size */
+            color: #a78bfa; /* Purple accent */
+            margin-bottom: 2rem;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 0 0 15px rgba(167, 139, 250, 0.7); /* Subtle glow */
+        }
+        @media (max-width: 767px) { /* Adjust for smaller screens */
+            .welcome-text {
+                font-size: 2.5rem; /* Smaller font for mobile */
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) { /* Tablet size */
+            .welcome-text {
+                font-size: 4rem;
+            }
+        }
+        @media (min-width: 1024px) { /* Desktop size */
+            .welcome-text {
+                font-size: 5rem;
+            }
+        }
+
+
+        /* --- Global Dark Theme Styles --- */
+        /* Navbar specific styles */
+        nav {
+            background-color: #2d3748; /* Slightly lighter dark for contrast */
+            color: #a0aec0; /* Lighter text for navigation items */
+            position: sticky; /* Make navbar stick to top */
+            top: 0;
+            z-index: 50; /* Ensure navbar is above content but below popups */
+        }
+        nav a {
+            position: relative; /* Needed for underline effect */
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #a78bfa; /* Vibrant purple hover for navbar links */
+            text-decoration: none; /* Remove default underline */
+        }
+        nav a::after { /* White underline effect on hover */
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background-color: #ffffff; /* White underline */
+            bottom: -5px; /* Position below text */
+            left: 0;
+            transition: width 0.3s ease-in-out;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        .text-logo { /* For logo text (BHAVAGEETHA) */
+            color: #e2e8f0;
+        }
+
+        /* Hero Section text colors */
+        .hero-text-primary {
+            color: #e2e8f0;
+        }
+        .hero-purple-accent {
+            color: #a78bfa; /* Purple for accent elements like name */
+        }
+        .social-link-bg { /* Background for social icons */
+            background-color: #4a5568; /* Medium dark grey for icons */
+        }
+
+        /* Section Titles - consistent across sections */
+        .section-title h2 {
+            color: #e2e8f0;
+            text-decoration: underline; /* Underline for all h2 headings */
+            text-decoration-color: #a78bfa; /* Purple underline */
+            text-underline-offset: 8px; /* Space between text and underline */
+            margin-bottom: 2rem; /* Add more space below the heading */
+        }
+        /* Specific h3 headings for sub-sections like NPTEL Certifications, etc. */
+        section h3 {
+            text-decoration: underline; /* Underline for h3 headings */
+            text-decoration-color: #a78bfa; /* Purple underline */
+            text-underline-offset: 6px; /* Space between text and underline */
+            margin-bottom: 1.5rem; /* Add more space below the heading */
+        }
+
+
+        /* About section tabs */
+        .tab-item {
+            background-color: #4a5568; /* Darker background for inactive tabs */
+            color: #e2e8f0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .tab-item.active {
+            background-color: #7c3aed; /* Vibrant purple for active tab */
+            color: #ffffff; /* White text on active tab */
+        }
+
+        /* Timeline (Education/Experience) - subtle border */
+        .timeline-item {
+            border-left: 2px solid #6b7280; /* Medium dark grey border */
+            padding-left: 1.5rem; /* Ensure space for the circle */
+            position: relative;
+        }
+        .timeline-item .circle-marker {
+            position: absolute;
+            left: -7px; /* Align with border */
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background-color: #8b5cf6; /* Purple circle marker */
+            border-radius: 50%;
+            border: 2px solid #1a202c; /* Border to match body background */
+        }
+        .timeline-item h4 {
+            color: #e2e8f0; /* Ensure heading is light */
+        }
+        /* Adjusted color for education details for better visibility */
+        .timeline-item p,
+        .timeline-item span {
+            color: #ffffff; /* White text for improved visibility */
+        }
+        .timeline-item .text-purple-400 { /* For live links */
+             color: #a78bfa;
+        }
+
+
+        /* Skill items - small tags */
+        .skill-item {
+            background-color: #4a5568; /* Darker background for skills */
+            color: #e2e8f0;
+            display: flex; /* Make it a flex container */
+            align-items: center; /* Vertically align icon and text */
+            gap: 0.5rem; /* Space between icon and text */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Add transition for hover */
+        }
+        .skill-item i {
+            font-size: 1.2em; /* Slightly larger icon */
+            color: #a78bfa; /* Purple color for icons */
+        }
+        /* New hover effect for skill items */
+        .skill-item:hover {
+            background-color: #8b5cf6; /* Purple background on hover */
+            color: #ffffff; /* White text on hover */
+            cursor: default; /* Indicate it's not clickable, just a label */
+        }
+        .skill-item:hover i {
+            color: #ffffff; /* White icon on hover */
+        }
+
+        /* Card components (Achievements/Projects/Contact) */
+        /* Base card styles - now also includes glassmorphism and hover effects */
+        .card {
+            background-color: rgba(45, 55, 72, 0.5); /* Semi-transparent background for glassmorphism */
+            color: #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Enhanced dark shadow */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribute content nicely */
+            border-radius: 0.75rem; /* Ensure rounded corners for consistency */
+            backdrop-filter: blur(8px); /* Glassmorphism blur */
+            -webkit-backdrop-filter: blur(8px); /* Safari support */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Apply hover zoom to specific card types - FIXED SELECTOR */
+        .internship-item.card:hover, /* Changed from .internship-item .card:hover */
+        .achievement-item.card:hover, /* Changed from .achievement-item .card:hover */
+        .portfolio-item.card:hover { /* Changed from .portfolio-item .card:hover */
+            transform: scale(1.03); /* Slightly zoom in on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* More prominent shadow on hover */
+            background-color: rgba(45, 55, 72, 0.7); /* Slightly less transparent on hover */
+        }
+
+
+        /* Form Inputs */
+        .input-control {
+            background-color: #4a5568; /* Dark grey for input fields */
+            color: #e2e8f0;
+            border: 1px solid #6b7280; /* Medium grey border */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .input-control:focus {
+            border-color: #8b5cf6; /* Purple focus ring */
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5); /* Subtle glowing effect */
+        }
+
+        /* Dropdown content for navigation */
+        .dropdown-content {
+            background-color: #2d3748; /* Matches navbar background */
+            color: #e2e8f0;
+            z-index: 100; /* Ensure it's above other content */
+        }
+        .dropdown-content a {
+            color: #e2e8f0;
+        }
+        .dropdown-content a:hover {
+            background-color: #4a5568; /* Darker hover for dropdown items */
+        }
+
+        /* Portfolio Popup */
+        .portfolio-popup {
+            background-color: rgba(0, 0, 0, 0.8); /* Dark, translucent overlay */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed; /* Use fixed for full overlay */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            overflow-y: auto; /* Allow scrolling for content */
+        }
+        .portfolio-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .pp-inner {
+            border-radius: 0.75rem;
+            background-color: #2d3748; /* Matches other card backgrounds */
+            max-width: 600px; /* Kept max-width for good balance */
+            max-height: 80vh; /* Reduced max-height for smaller popup */
+            width: 90%;
+            margin: 20px auto; /* Centers the box horizontally */
+            transform: translateY(0); /* Start directly centered vertically */
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+        }
+        .portfolio-popup.active .pp-inner {
+            transform: translateY(0);
+        }
+        .pp-content {
+            padding: 2rem;
+        }
+        .pp-header {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .pp-close {
+            position: absolute;
+            top: 15px; /* Adjusted for better spacing */
+            right: 15px; /* Adjusted for better spacing */
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ffffff; /* White close button */
+            z-index: 20; /* Increased z-index to ensure visibility above image */
+            width: 35px; /* Make it a circular button */
+            height: 35px; /* Make it a circular button */
+            border-radius: 50%; /* Make it circular */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .pp-close:hover {
+            background-color: #8b5cf6; /* Purple on hover */
+            transform: scale(1.1); /* Slightly enlarge on hover */
+        }
+
+        .pp-thumbnail img {
+            width: 100%;
+            height: auto;
+            min-height: 150px; /* Added min-height for consistent visual space */
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            object-fit: contain; /* Ensure image fits without cropping */
+            max-height: 400px; /* Limit image height in popup */
+        }
+
+        /* --- Global Background Elements (Code Rain) --- */
+        #rainContainer {
+            position: fixed; /* Always fixed to cover the viewport */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh; /* Will be dynamically adjusted on scroll to match document height */
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: -10; /* Ensure it's behind all content */
+            overflow: hidden; /* Important for preventing scrollbars on container itself */
+        }
+        .code-rain-canvas {
+            position: absolute; /* Position within rainContainer */
+            left: 0;
+            width: 100%;
+            background: transparent;
+        }
+
+        /* --- Button Specific Styles (White Glassmorphism) --- */
+        .glowing-button {
+            background-color: rgba(255, 255, 255, 0.15); /* Translucent white */
+            color: #ffffff; /* White bold font for all buttons */
+            font-weight: 700; /* Bold font */
+            border: 1px solid rgba(255, 255, 255, 0.4); /* White, slightly translucent border */
+            backdrop-filter: blur(10px); /* Glassmorphism blur effect */
+            -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .glowing-button:hover {
+            background-color: #8b5cf6; /* Purple on hover */
+            border-color: #8b5cf6; /* Purple border on hover */
+            color: #ffffff; /* Keep text white on hover */
+        }
+        .glowing-button::before { /* Inner glow effect on hover */
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.7s ease-out;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+        }
+        .glowing-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+        }
+
+        .floating-button {
+            background-color: rgba(255, 255, 255, 0.15); /* Translucent white */
+            border: 1px solid rgba(255, 255, 255, 0.4); /* White, slightly translucent border */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex; /* Ensure flex for centering */
+            align-items: center; /* Center icon vertically */
+            justify-content: center; /* Center icon horizontally */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .floating-button:hover {
+            background-color: #8b5cf6; /* Purple on hover */
+            border-color: #8b5cf6; /* Purple border on hover */
+        }
+        .floating-button i {
+            color: #ffffff; /* Ensure arrow is white */
+        }
+
+
+        /* Fade-in/out animation for professions */
+        @keyframes fadeInWord {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOutWord {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Ensure words within profession-text are on the same line and bold/white */
+        #profession-text {
+            white-space: nowrap; /* Prevent wrapping for words within the span */
+            display: inline-block; /* Essential for containing inline elements properly */
+            overflow: hidden; /* Hide overflow during transitions */
+            vertical-align: middle; /* Align vertically with surrounding text */
+        }
+
+        .word-span {
+            display: inline-block; /* Allows individual animation while staying inline */
+            opacity: 0; /* Start hidden */
+            font-weight: 700; /* Make the text bold */
+            color: #ffffff; /* Ensure white color */
+        }
+
+        /* Profile image container for glassmorphism */
+        .profile-image-container {
+            background-color: rgba(255, 255, 255, 0.1); /* Light translucent white */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+            width: 288px; /* w-72 */
+            height: 288px; /* h-72 */
+            display: flex; /* To center the image */
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Important for rounded image */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Add shadow for depth */
+            border-radius: 50%; /* Ensure perfect circle */
+        }
+
+        @media (min-width: 768px) {
+            .profile-image-container {
+                width: 384px; /* md:w-96 */
+                height: 384px; /* md:h-96 */
+            }
+        }
+
+
+        /* Fade-in animation for quote */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-in-quote {
+            opacity: 0; /* Start invisible */
+            animation: fadeIn 2s ease-out 1s forwards; /* 2s duration, 1s delay, stay visible */
+        }
+
+
+        /* Consistent card heights for desktop (and potentially tablet) */
+        @media (min-width: 768px) { /* md breakpoint and up */
+            .portfolio-item, .achievement-item .card, .internship-item .card {
+                min-height: 380px; /* Adjust as needed for content and aesthetics */
+            }
+            .achievement-item .card {
+                min-height: 280px; /* A slightly smaller height for achievement cards */
+            }
+        }
+
+        @media (min-width: 1024px) { /* lg breakpoint and up */
+            .portfolio-item, .achievement-item .card, .internship-item .card {
+                min-height: 420px; /* Slightly taller for larger screens */
+            }
+            .achievement-item .card {
+                min-height: 300px;
+            }
+        }
+
+        /* Footer styling */
+        .main-footer {
+            background-color: #2d3748; /* Matches navbar/card background */
+            color: #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #4a5568; /* Subtle top border */
+            margin-top: auto; /* Pushes footer to the bottom */
+        }
+        .main-footer p {
+            margin-bottom: 0.5rem;
+        }
+        .main-footer .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #ffffff; /* White text for the quote */
+            font-weight: bold; /* Bold text for the quote */
+        }
+        .main-footer .copyright {
+            font-size: 0.9rem;
+            color: #ffffff; /* White text for copyright */
+        }
+
+        /* "THANK YOU" text in footer - RGB animation removed */
+        .thank-you-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #e2e8f0; /* Static color as requested */
+        }
+
+        /* New CSS for fade-in effect on scroll */
+        .fade-in-element {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+
+        .fade-in-element.is-visible {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body class="flex flex-col">
+
+    <!-- Global Rain Container -->
+    <div id="rainContainer">
+        <canvas id="codeRainCanvasDownward" class="code-rain-canvas"></canvas>
+        <canvas id="codeRainCanvasUpward" class="code-rain-canvas"></canvas>
+    </div>
+
+    <!-- Page Loader -->
+    <div id="page-loader">
+        <h1 class="welcome-text">WELCOME TO MY PORTFOLIO</h1>
+        <button id="explore-button" class="glowing-button py-3 px-8 rounded-lg shadow-lg transition duration-300 text-xl">
+            Explore Now
+        </button>
+    </div>
+
+    <div id="main-content" class="flex flex-col flex-grow hidden opacity-0 pointer-events-none transition-opacity duration-700"> <!-- Initially hidden, transparent, and non-interactive -->
+        <!-- Navbar -->
+        <nav class="p-4 shadow-md rounded-b-xl">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-2xl font-bold flex items-center">
+                    <!-- Replaced earth icon with BG as requested -->
+                    <span class="text-logo mr-2">BG</span>
+                    <span class="text-logo">BHAVAGEETHA</span>
+                </div>
+                <div class="hidden md:flex space-x-6 font-semibold">
+                    <a href="#home" class="transition duration-300">Home</a>
+                    <a href="#about" class="transition duration-300">About</a>
+                    <a href="#internships" class="transition duration-300">Internships & Experience</a> <!-- New Link -->
+                    <a href="#achievements" class="transition duration-300">Achievements</a>
+                    <a href="#portfolio" class="transition duration-300">Projects</a>
+                    <a href="#contact" class="transition duration-300">Contact</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none text-white">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu" class="hidden md:hidden fixed inset-0 w-full h-full bg-gray-900 bg-opacity-95 z-50 flex flex-col items-center justify-center space-y-8">
+                <button id="close-mobile-menu" class="absolute top-4 right-4 focus:outline-none text-white">
+                    <i class="fas fa-times text-3xl"></i>
+                </button>
+                <a href="#home" class="text-3xl text-gray-200 hover:text-purple-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Home</a>
+                <a href="#about" class="text-3xl text-gray-200 hover:text-purple-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">About</a>
+                <a href="#internships" class="text-3xl text-gray-200 hover:text-purple-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Internships & Experience</a> <!-- New Mobile Link -->
+                <a href="#achievements" class="text-3xl text-gray-200 hover:text-purple-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Achievements</a>
+                <a href="#portfolio" class="text-3xl text-gray-200 hover:text-purple-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Projects</a>
+                <a href="#contact" class="text-3xl text-gray-200 hover:text-purple-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contact</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="relative flex flex-grow items-center justify-center p-8 overflow-hidden pt-24">
+            <div class="container mx-auto flex flex-col md:flex-row items-center justify-between relative z-10 p-4 w-full">
+                <!-- Left Content -->
+                <div class="text-left mb-8 md:mb-0 md:w-1/2">
+                    <h1 class="text-4xl lg:text-5xl font-bold hero-text-primary mb-2">
+                        Hi There,
+                    </h1>
+                    <h2 class="text-5xl lg:text-6xl font-bold hero-purple-accent mb-4">
+                        I'm BhavaGeetha
+                    </h2>
+                    <p class="text-2xl text-gray-400 mb-6">
+                        I'm an <span id="profession-text"></span>
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#about" class="glowing-button text-center py-3 px-6 rounded-lg shadow-lg transition duration-300">
+                            Know More !
+                        </a>
+                        <a href="#portfolio" class="glowing-button text-center py-3 px-6 rounded-lg shadow-lg transition duration-300">
+                            Projects
+                        </a>
+                    </div>
+                    <div class="flex space-x-4 mt-8">
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/bhavageetha/" target="_blank" class="w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl hover:bg-blue-800 transition duration-300 shadow-md social-link-bg">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect width="4" height="12" x="2" y="9"/>
+                          </svg>
+                        </a>
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/_geethlin_?igsh=OWk3dXFjMGt5YTgw" target="_blank" class="w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl hover:bg-pink-600 transition duration-300 shadow-md social-link-bg">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" x2="17.5" y1="6.5" y2="6.5"/>
+                          </svg>
+                        </a>
+                        <!-- GitHub -->
+                        <a href="https://github.com/Bhavageetha16" target="_blank" class="w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl hover:bg-gray-900 transition duration-300 shadow-md social-link-bg">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                          </svg>
+                        </a>
+                         <!-- Mail -->
+                        <a href="mailto:bhavageetha160506@gmail.com" class="w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl hover:bg-red-700 transition duration-300 shadow-md social-link-bg">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                    <p class="text-md mt-6 italic text-white fade-in-quote">"Create boldly. Code fearlessly. Conquer quietly."</p>
+                </div>
+
+                <!-- Right Image -->
+                <div class="relative w-full md:w-1/2 flex justify-center md:justify-end mt-8 md:mt-0">
+                    <div class="profile-image-container rounded-full shadow-lg">
+                        <!-- Added fade-in-element class -->
+                        <img src="cropped_image (81).png" alt="BhavaGeetha Profile" class="rounded-full w-full h-full object-cover z-10 fade-in-element">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section Start -->
+        <section id="about" class="py-16 px-8 container mx-auto pt-24">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4 text-center mb-12">
+                    <h2 class="text-4xl font-bold section-title">About me</h2>
+                </div>
+            </div>
+            <div class="flex flex-wrap lg:flex-nowrap items-center -mx-4">
+                <div class="w-full lg:w-1/3 px-4 mb-8 lg:mb-0 flex justify-center">
+                    <div class="profile-image-container rounded-full shadow-lg">
+                        <!-- Added fade-in-element class -->
+                        <img src="cropped_circle_image.png" alt="about-img" class="rounded-full w-full h-full object-cover fade-in-element">
+                    </div>
+                </div>
+                <div class="w-full lg:w-2/3 px-4">
+                    <p class="text-lg leading-relaxed text-gray-300 mb-6">
+                        I'm Bhavageetha, a passionate Web and App Developer with strong skills in Java programming. I specialize in creating responsive websites and intuitive mobile apps that offer seamless user experiences. With a blend of creativity and technical precision, I bring bold ideas to life through clean, efficient code. I'm always eager to learn, grow, and explore the latest in technology. Let's build something smart, stunning, and impactful together.
+                    </p>
+
+                    <div class="flex space-x-4 mb-8 border-b-2 border-gray-700">
+                        <button type="button" class="py-3 px-6 rounded-t-lg font-semibold tab-item active" data-target="#education-content">Education</button>
+                    </div>
+
+                    <!-- Education Start -->
+                    <div class="tab-content active" id="education-content">
+                        <h3 class="text-2xl font-semibold text-gray-200 mb-4 text-center">Education</h3>
+                        <div class="relative pl-6 pb-4 timeline-item">
+                            <div class="circle-marker"></div>
+                            <span class="block text-sm mb-1">KSR Engineering College, Namakkal, TN (2023 – 2027) </span>
+                            <h4 class="text-xl font-semibold mb-1">Bachelor of Engineering in Computer Science- (Current CGPA: 9.08 - 4th Semester)</h4>
+                            <p class="text-base">Pursuing a strong foundation in software development, data structures, and emerging technologies with a consistent academic track record and a passion for building real-world solutions.</p>
+                        </div>
+                        <div class="relative pl-6 pb-4 timeline-item">
+                            <div class="circle-marker"></div>
+                            <span class="block text-sm mb-1">Sarada Vidyalaya Hr. Sec. School for Girls, Salem, TN (May 2023 )</span>
+                            <h4 class="text-xl font-semibold mb-1">Higher Secondary (Maths–Biology Stream) - (Score: 86%)</h4>
+                            <p class="text-base">Focused on analytical thinking and core science concepts, laying the groundwork for a tech-driven academic path. This phase helped me develop precision, problem-solving mindset, and a passion for emerging technologies.</p>
+                        </div>
+                        <div class="relative pl-6 pb-4 timeline-item">
+                            <div class="circle-marker"></div>
+                            <span class="block text-sm mb-1">Sarada Vidyalaya Hr. Sec. School for Girls, Salem, TN (May 2021)</span>
+                            <h4 class="text-xl font-semibold mb-1">Secondary School Leaving Certificate (SSLC) - (Score: 90%)</h4>
+                            <p class="text-base">Maintained academic excellence with a strong performance in foundational subjects and logical reasoning. This early success ignited my curiosity for tech and laid the path toward becoming a developer.</p>
+                        </div>
+                    </div>
+                    <!-- Education End -->
+
+                    <h3 class="text-2xl font-semibold text-gray-200 mb-4 text-center">Skills</h3>
+                    <div class="flex flex-wrap gap-3 mb-8 justify-center">
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fab fa-java"></i> JAVA
+                        </div>
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fab fa-html5"></i> HTML
+                        </div>
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fab fa-css3-alt"></i> CSS
+                        </div>
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fab fa-js"></i> JAVASCRIPT
+                        </div>
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fab fa-react"></i> REACT.JS
+                        </div>
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fab fa-python"></i> PYTHON
+                        </div>
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fas fa-database"></i> MY SQL
+                        </div>
+                        <div class="py-2 px-4 rounded-full text-sm font-medium skill-item">
+                            <i class="fas fa-code"></i> DSA
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
+                        <a href="https://drive.google.com/drive/folders/1evQ_O9SYyQMMztKx_rng5pJDnhwKUT1x?usp=drive_link" target="_blank" class="glowing-button text-center py-3 px-6 rounded-lg shadow-lg transition duration-300">
+                            Download CV
+                        </a>
+                        <a href="#contact" class="glowing-button text-center py-3 px-6 rounded-lg shadow-lg transition duration-300">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- About Section End -->
+
+        <hr class="my-8 border-gray-700">
+
+        <!-- Internships & Experience Section Start -->
+        <section id="internships" class="py-16 px-8 container mx-auto pt-24">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4 text-center mb-12">
+                    <h2 class="text-4xl font-bold section-title">Internships & Experience</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Internship 1: Web Development Intern - CubeAISolutions -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card internship-item cursor-pointer" data-type="internship" data-id="cubeai">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="16_bhav_Intern (1).jpg" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=CubeAISol+Int';" alt="CubeAISolutions Internship" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="16_bhav_Intern (1).jpg">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Web Development Intern - CubeAISolutions</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>Worked on real-time projects using HTML, CSS, and JavaScript, building modern, responsive web pages. Collaborated with senior developers in a fast-paced environment, enhancing both technical and teamwork skills. This experience solidified my passion for frontend development.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Date -</span> <span class="detail-value">9th July – 23th July 2024</span></li>
+                                <li><span>Company -</span> <span class="detail-value">CubeAISolutions Tech Pvt Ltd, Bengaluru</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend Intern</span></li>
+                                <li><span>Link -</span> <span class="detail-value"><a href="https://drive.google.com/file/d/1zw0L7fVmKRTVVhnGfhM3dZc01aedQxCP/view?usp=drive_link" target="_blank">Certificate Link</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internship 2: Zero Trust Cloud Security Intern - Zscaler Virtual Internship -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card internship-item cursor-pointer" data-type="internship" data-id="zscaler">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="16_bhav_Intern (6).jpg" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Zscaler+Int';" alt="Zscaler Internship" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="16_bhav_Intern (6).jpg">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Zero Trust Cloud Security Intern - Zscaler</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>Explored the core principles of cloud security through a rigorous virtual program. Focused on implementing Zero Trust architecture in real-world use cases and completed the internship with a Grade B. Developed a deeper understanding of cybersecurity protocols and secure system designs.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Date -</span> <span class="detail-value">April – June 2024 (10 Weeks)</span></li>
+                                <li><span>Company -</span> <span class="detail-value">Zscaler Virtual Internship</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Security Intern</span></li>
+                                <li><span>Link -</span> <span class="detail-value"><a href="https://drive.google.com/file/d/1H65dbUmHc9_fYNWIKmgwr9v6PzD0GkKi/view?usp=drive_link" target="_blank">Certificate Link</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Internship 6: Data Science Intern - Proxenix -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card internship-item cursor-pointer" data-type="internship" data-id="proxenix">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="16_bhav_Intern (2).jpg" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Proxenix+Int';" alt="Proxenix Internship" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="16_bhav_Intern (2).jpg">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Data Science Intern - Proxenix</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description"> <!-- Added description div and p tag -->
+                            <p>Completed a Virtual Data Science & Analytics Internship at Proxenix from June to July 2025. Gained hands-on experience working with real-world datasets, performing data cleaning, visualization, and applying fundamental machine learning models to extract actionable insights. This internship strengthened my analytical thinking, problem-solving skills, and deepened my understanding of data-driven decision-making processes.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Date -</span> <span class="detail-value">June – July 2025</span></li>
+                                <li><span>Company -</span> <span class="detail-value">Proxenix</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Data Science Intern</span></li>
+                                <li><span>Link -</span> <span class="detail-value"><a href="https://drive.google.com/file/d/1EIFG1qAxLVr2P58Ykx4VWaLoBUy4tF4u/view?usp=drive_link" target="_blank">Certificate Link</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internship 4: Full Stack Java Intern - Skilldzire & AICTE -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card internship-item cursor-pointer" data-type="internship" data-id="skilldzire">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="16_bhav_Intern (3).jpg" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Skilldzire+Int';" alt="Skilldzire Internship" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="16_bhav_Intern (3).jpg">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Full Stack Java Intern - Skilldzire & AICTE</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>Worked across both frontend and backend stacks using Java technologies. Developed end-to-end applications, including UI design, API integration, and database handling. Strengthened problem-solving, clean coding practices, and full-stack architecture knowledge.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Date -</span> <span class="detail-value">1 Month</span></li>
+                                <li><span>Company -</span> <span class="detail-value">Skilldzire & AICTE</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Full Stack Java Intern</span></li>
+                                <li><span>Link -</span> <span class="detail-value"><a href="https://drive.google.com/file/d/1oZOfOVISu9rfTH9PRTQuPEU-dSe6bU5B/view?usp=drive_link" target="_blank">Certificate Link</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internship 5: Virtual Data Analysis Internship - Indolike -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card internship-item cursor-pointer" data-type="internship" data-id="indolike">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="16_bhav_Intern (4).jpg" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Indolike+Int';" alt="Indolike Internship" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="16_bhav_Intern (4).jpg">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Virtual Data Analysis Internship - Indolike</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description"> <!-- Added description div and p tag -->
+                            <p>I completed a one-month virtual Data Analysis Internship at Indolike in June 2025, recognized by the Ministry of MSME, Government of India. During this internship, I explored data cleaning, visualization, and gained insights from real-world datasets. I also completed two hands-on projects: Social Media Engagement Analysis and Climate Change Trends. The source code and output snapshots for both projects are available on my GitHub.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Date -</span> <span class="detail-value">June 2025 | Duration: 1 Month</span></li>
+                                <li><span>Company -</span> <span class="detail-value">Indolike</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Data Analyst Intern</span></li>
+                                <li><span>Link -</span> <span class="detail-value"><a href="https://drive.google.com/file/d/13Yt4L3FNpdQt9uvZpCxrLjpRZ1kjoA2w/view?usp=drive_link" target="_blank">Certificate Link</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+              <!-- Internship 3: Front-End Development Intern - Corizo, Bengaluru -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card internship-item cursor-pointer" data-type="internship" data-id="corizo">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="16_bhav_Intern (5).jpg" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Corizo+Int';" alt="Corizo Internship" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="16_bhav_Intern (5).jpg">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Front-End Development Intern - Corizo</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>Designed and deployed a CRUD app and a dynamic E-commerce site as part of hands-on tasks. Improved proficiency in JavaScript, UI/UX best practices, and responsive layout techniques. This internship deepened my ability to think creatively and develop scalable interfaces.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Date -</span> <span class="detail-value">5th October – 5th November 2024</span></li>
+                                <li><span>Company -</span> <span class="detail-value">Corizo, Bengaluru</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend Intern</span></li>
+                                <li><span>Link -</span> <span class="detail-value"><a href="https://drive.google.com/file/d/1J1ErdlwXGzWRaa2h14IGdUZNM9kJeuPK/view?usp=drive_link" target="_blank">Certificate Link</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internship 7: Virtual Data Analyst Intern - Aprina Solution PVT LTD -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card internship-item cursor-pointer" data-type="internship" data-id="aprina">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="16_bhav_Intern(7).jpg" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Aprina+Int';" alt="Aprina Internship" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="16_bhav_Intern(7).jpg">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Virtual Data Analyst Intern - Aprina Solution PVT LTD</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description"> <!-- Added description div and p tag -->
+                            <p>Completed a focused virtual internship in Data Analytics, gaining practical experience in handling, analyzing, and visualizing data for business insights. Developed skills in Microsoft Excel, Power BI, and SQL, applying them to real-world datasets and business problems.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Date -</span> <span class="detail-value">June – July 2025</span></li>
+                                <li><span>Company -</span> <span class="detail-value">Aprina Solution PVT LTD</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Data Analyst Intern</span></li>
+                                <li><span>Link -</span> <span class="detail-value"><a href="https://drive.google.com/file/d/1WUnhIRh3whnjA6yv4TJXNhnjgN9rquAv/view?usp=drive_link" target="_blank">Certificate Link</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Internships & Experience Section End -->
+
+        <hr class="my-8 border-gray-700">
+
+        <!-- Achievements Section Start -->
+        <section id="achievements" class="py-16 px-8 container mx-auto pt-24">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4 text-center mb-12">
+                    <h2 class="text-4xl font-bold section-title">Achievements</h2>
+                </div>
+            </div>
+
+            <!-- NPTEL Certifications -->
+            <div class="mb-12">
+                <h3 class="text-3xl font-bold text-gray-200 mb-6 text-center">NPTEL Certifications</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="images (1).png" alt="Cloud Computing" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="images (1).png">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Cloud Computing - NPTEL (2024)</h4>
+                        <a href="https://drive.google.com/file/d/1FQrzv4Q4BIboYPyVjAyORxsQQUQeM7Eu/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="images (1).png" alt="IoT NPTEL" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="images (1).png">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Internet Of Things - NPTEL (2024)</h4>
+                        <a href="https://drive.google.com/file/d/1UT0emJypfPZWH5aTo-J3Us5pa21Xzj7_/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="images (1).png" alt="Industry 4.0" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="images (1).png">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Industry 4.0 & IIOT - NPTEL (2025)</h4>
+                        <a href="https://drive.google.com/file/d/1xcWgjc_BOY8ZIOPfDn7Nc3UNJYC3x9Ti/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workshop & Symposium -->
+            <div class="mb-12">
+                <h3 class="text-3xl font-bold text-gray-200 mb-6 text-center">Workshop & Symposium</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="workshop-word-text-cut-from-paper-flat-design_100655-3161.avif" alt="Snap AR Bootcamp" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="workshop-word-text-cut-from-paper-flat-design_100655-3161.avif">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Snap AR Bootcamp Workshop - 2024</h4>
+                        <a href="https://drive.google.com/file/d/1_zWEaa3C0f4Uv6TGxSl3xuPWfrqdJHUR/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="workshop-word-text-cut-from-paper-flat-design_100655-3161.avif" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="workshop-word-text-cut-from-paper-flat-design_100655-3161.avif">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Port'25 LLM Paper Presentation - 2025</h4>
+                        <a href="https://drive.google.com/file/d/1cNrP0dPk2lHCsKrvAZ6cTmMPfzAWgGoy/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="sm.webp" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="sm.webp">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Cyber Security Paper Presentation - 2024</h4>
+                        <a href="https://drive.google.com/file/d/1cj8wCzZP_uthFhVKjhLJyBZn7Gzu7mKr/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="sm.webp" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="sm.webp">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">UI/UX Paper Presentation - 2024</h4>
+                        <a href="https://drive.google.com/file/d/1MSEGjsIOj5Bk7FLkwyd6pnmR3AgHJ7g7/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Completion Certifications -->
+            <div class="mb-12">
+                <h3 class="text-3xl font-bold text-gray-200 mb-6 text-center">Course Completion Certifications</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="udemy user.png" alt="Java Programming" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="udemy user.png">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Learn JAVA Programming - Beginner to Master</h4>
+                        <a href="https://drive.google.com/file/d/1HRh4UO3XDMNG-3ol_0tCRKnnmChgha4j/view?usp=drive_link" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Certificate</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="udemy user.png" alt="Machine Learning" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="udemy user.png">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">Machine Learning A-Z: AI, Python & R + ChatGPT Prize</h4>
+                        <a href="https://drive.google.com/file/d/1PHAosPAgZVHbZ61z1Z2HBL0-rWficHgH/view?usp=drive_link" target="_blank" class="glowing-button py-2 px-4 rounded-lg transition duration-300">View Certificate</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coding Profiles -->
+            <div>
+                <h3 class="text-3xl font-bold text-gray-200 mb-6 text-center">Coding Profiles</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="hackerrank-software-500x500.webp" alt="HackerRank" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="HackerRank_Icon-1000px.png">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">HackerRank</h4>
+                        <a href="https://www.hackerrank.com/profile/rjbhavi1605" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Profile</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="leetcode.webp" alt="LeetCode" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="leetcode.webp">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">LeetCode</h4>
+                        <a href="https://leetcode.com/u/rjbhavii/" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Profile</a>
+                    </div>
+                    <div class="card rounded-xl p-6 flex flex-col items-center text-center achievement-item cursor-pointer">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="GeekforGeeks.webp" alt="GeeksforGeeks" class="mb-4 rounded-lg fade-in-element" loading="lazy" data-full-image="GeekforGeeks.webp">
+                        <h4 class="text-xl font-semibold text-gray-200 mb-2">GeeksforGeeks</h4>
+                        <a href="https://www.geeksforgeeks.org/user/bhavageetha/" class="glowing-button py-2 px-4 rounded-lg transition duration-300" target="_blank">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Achievements Section End -->
+
+        <hr class="my-8 border-gray-700">
+
+        <!-- Portfolio Section Start -->
+        <section id="portfolio" class="py-16 px-8 container mx-auto pt-24">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4 text-center mb-12">
+                    <h2 class="text-4xl font-bold section-title">Recent Work</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1: CRUD Application -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="crud">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="pr.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=CRUD+App+Preview';" alt="CRUD Application" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="pr.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">CRUD Application</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>A full-stack CRUD application with Create, Read, Update, and Delete functionality.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">March 2024</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://crudapplicationhtml.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: ToDo List App -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="todo">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="crud.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=ToDo+List+Preview';" alt="ToDo List App" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="crud.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">ToDo List App</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>A fully responsive ToDo List App built with HTML, CSS & JavaScript.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">June 2025</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://bhavageethatodolist.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: E-Commerce Website -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="ecommerce">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="pr2.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=E-Commerce+Preview';" alt="E-Commerce Website" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="pr2.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">E-Commerce Website</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>A dynamic online store featuring product listings, shopping cart functionality.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">August 2024</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://ecommerceindiantrendscollectionshtml.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: SoulFul Spoon -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="soulful-spoon">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="soulful spoons.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=SoulFul+Spoon+Preview';" alt="SoulFul Spoon" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="soulful spoons.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">SoulFul Spoon</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>A vibrant food ordering site featuring category-based browsing, image gallery, and smooth order interaction.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">July 2025</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://soulfulspoon.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Apple E-Commerce -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="apple-ecommerce">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="apple-e-commerce.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Apple+E-Comm+Preview';" alt="Apple E-Commerce" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="apple-e-commerce.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Apple E-Commerce</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>An Apple-themed e-commerce website showcasing products like iPhone, iWatch, AirPods, and MacBook.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">July 2025</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://iplugg.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: The Road -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="the-road">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="road.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=The+Road+Preview';" alt="The Road" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="road.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">The Road</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>A responsive tour booking website offering worldwide travel packages with smooth user interaction.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">July 2025</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://wandertheroad.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7: CodeNova Agency -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="codenova">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="business.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=CodeNova+Preview';" alt="CodeNova Agency" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="business.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">CodeNova Agency</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>A modern and responsive website for a business agency, showcasing services, portfolio, and team information.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">August 2025</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://codenova-business-agency.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 8: RetroRev Cars -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="retrorev">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="retrorev cars.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=RetroRev+Preview';" alt="RetroRev Cars" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="retrorev cars.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">RetroRev Cars</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>An engaging website for vintage car enthusiasts, featuring a gallery, car details, and contact forms.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">July 2025</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://retrorev-cars.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 9: Vision Arcs -->
+                <div class="card rounded-xl p-6 flex flex-col items-center text-center popup-trigger-card portfolio-item cursor-pointer" data-type="project" data-id="vision-arcs">
+                    <div class="w-full mb-4 overflow-hidden rounded-lg">
+                        <!-- Added fade-in-element and loading="lazy" -->
+                        <img src="vision arcs.png" onerror="this.src='https://placehold.co/300x200/2D3748/A78BFA?text=Vision+Arcs+Preview';" alt="Vision Arcs" class="w-full h-auto object-cover rounded-lg fade-in-element" loading="lazy" data-full-image="vision arcs.png">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-200 mb-4">Vision Arcs</h3>
+                    <button type="button" class="glowing-button py-2 px-4 rounded-lg transition duration-300 view-project-btn">View Details</button>
+                    <div class="item-details hidden">
+                        <div class="description">
+                            <p>A portfolio website for an architectural firm, displaying their projects, services, and team information.</p>
+                        </div>
+                        <div class="general-info">
+                            <ul>
+                                <li><span>Created -</span> <span class="detail-value">July 2025</span></li>
+                                <li><span>Technologies used -</span> <span class="detail-value">HTML, CSS, JavaScript</span></li>
+                                <li><span>Role -</span> <span class="detail-value">Frontend</span></li>
+                                <li><span>Demo -</span> <span class="detail-value"><a href="https://vision-arcs.netlify.app/" target="_blank">click here</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Portfolio Section End -->
+
+        <hr class="my-8 border-gray-700">
+
+        <!--Contact Section Start-->
+        <section id="contact" class="py-16 px-8 container mx-auto pt-24">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full px-4 text-center mb-12">
+                    <h2 class="text-4xl font-bold section-title">Contact Me</h2>
+                </div>
+            </div>
+            <div class="flex flex-wrap lg:flex-nowrap -mx-4 items-start">
+                <div class="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
+                    <form action="https://api.web3forms.com/submit" method="POST" class="card rounded-xl p-8 shadow-lg">
+                        <input type="hidden" name="access_key" value="69e5cf26-9765-4b6d-b4d4-5d6e66943dc8">
+                        <div class="mb-6">
+                            <input type="text" placeholder="Name" name="name" class="w-full p-3 rounded-lg input-control focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <input type="email" placeholder="Email" name="email" class="w-full p-3 rounded-lg input-control focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <input type="text" placeholder="Phone" name="phone" class="w-full p-3 rounded-lg input-control focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div class="mb-6">
+                            <textarea placeholder="Message" name="message" class="w-full p-3 rounded-lg input-control focus:outline-none focus:ring-2 focus:ring-purple-500 h-32 resize-none" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="glowing-button py-3 px-8 rounded-lg shadow-lg transition duration-300">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="w-full lg:w-1/2 px-4">
+                    <div class="card rounded-xl p-8 shadow-lg">
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold text-gray-200 mb-2">Email</h3>
+                            <p class="text-gray-300">bhavageetha160506@gmail.com</p>
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold text-gray-200 mb-2">Phone</h3>
+                            <p class="text-gray-300">+91 9629159333</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-200 mb-2">Follow me</h3>
+                            <div class="flex space-x-4">
+                                <!-- LinkedIn -->
+                                <a href="https://www.linkedin.com/in/bhavageetha/" target="_blank" class="w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl hover:bg-blue-800 transition duration-300 shadow-md social-link-bg">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                    <rect width="4" height="12" x="2" y="9"/>
+                                  </svg>
+                                </a>
+                                <!-- Instagram -->
+                                <a href="https://www.instagram.com/_geethlin_?igsh=OWk3dXFjMGt5YTgw#" target="_blank" class="w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl hover:bg-pink-600 transition duration-300 shadow-md social-link-bg">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                    <line x1="17.5" x2="17.5" y1="6.5" y2="6.5"/>
+                                  </svg>
+                                </a>
+                                <!-- GitHub -->
+                                <a href="https://github.com/Bhavageetha16" target="_blank" class="w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl hover:bg-gray-900 transition duration-300 shadow-md social-link-bg">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                  </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Contact Section End-->
+
+        <!-- Footer Start -->
+        <footer class="main-footer">
+            <p class="thank-you-text">THANK YOU</p>
+            <p class="quote">"Arise, awake, and stop not till the goal is reached."</p>
+            <p class="copyright">&copy; 2025 BhavaGeetha. All rights reserved.</p>
+        </footer>
+        <!-- Footer End -->
+
+        <!-- Portfolio Item Details Popup Start-->
+        <div class="portfolio-popup" id="portfolio-popup">
+            <div class="pp-inner card">
+                <div class="pp-content p-8">
+                    <div class="pp-header relative mb-6">
+                        <button class="pp-close absolute top-0 right-0 text-3xl focus:outline-none">&times;</button>
+                        <div class="pp-thumbnail w-full mb-4 rounded-lg overflow-hidden">
+                            <img src="" alt="Thumbnail" class="w-full h-auto object-cover" id="pp-thumbnail-img">
+                        </div>
+                        <h3 class="text-3xl font-bold mt-4" id="pp-title"></h3>
+                    </div>
+                    <div class="pp-body">
+                        <div class="description mb-6">
+                            <p id="pp-description"></p>
+                        </div>
+                        <div class="general-info">
+                            <ul class="list-none p-0">
+                                <!-- Dynamically populated based on type (project or internship) -->
+                                <li class="mb-2"><span>Created/Date -</span> <span id="pp-date"></span></li>
+                                <li class="mb-2"><span>Technologies used/Company -</span> <span id="pp-tech-company"></span></li>
+                                <li class="mb-2"><span>Role -</span> <span id="pp-role"></span></li>
+                                <li class="mb-2"><span>Demo/Link -</span> <span id="pp-link"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Item Details Popup End-->
+
+        <!-- Floating Circular Button (Scroll to Top) -->
+        <div class="fixed bottom-4 right-4 w-12 h-12 rounded-full shadow-lg cursor-pointer transition duration-300 floating-button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <i class="fas fa-chevron-up text-xl"></i>
+        </div>
+    </div> <!-- End of main-content -->
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Offset by navbar height for smooth scroll to avoid heading overlap
+                    const navbarHeight = document.querySelector('nav').offsetHeight;
+                    const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+        });
+
+        closeMobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+
+        // About Section Tabs (Education remains)
+        const tabButtons = document.querySelectorAll('.tab-item');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+
+                // Remove 'active' from all buttons and 'hidden' from all contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.add('hidden'));
+
+                // Add 'active' to the clicked button and show its corresponding content
+                button.classList.add('active');
+                document.querySelector(targetId).classList.remove('hidden');
+            });
+        });
+
+        // Portfolio Item Details Popup (Unified for Projects and Internships)
+        const portfolioPopup = document.getElementById('portfolio-popup');
+        const ppCloseButton = portfolioPopup.querySelector('.pp-close');
+        const ppThumbnailImg = document.getElementById('pp-thumbnail-img');
+        const ppTitle = document.getElementById('pp-title');
+        const ppDescription = document.getElementById('pp-description');
+        const ppDate = document.getElementById('pp-date'); // Unified for Created/Date
+        const ppTechCompany = document.getElementById('pp-tech-company'); // Unified for Technologies/Company
+        const ppRole = document.getElementById('pp-role');
+        const ppLink = document.getElementById('pp-link'); // Unified for Demo/Link
+
+        // Select all cards that can trigger the popup
+        document.querySelectorAll('.popup-trigger-card').forEach(item => {
+            item.addEventListener('click', (event) => {
+                // If a link within the card is clicked, let it navigate normally
+                // This ensures direct links in cards (like certificate links) work without opening the popup
+                if (event.target.tagName === 'A' || event.target.closest('a')) {
+                    return;
+                }
+
+                // If the "View Details" button or any part of the card (excluding direct links) is clicked, open popup
+                // Directly query from the item to ensure content retrieval even if .item-details is hidden
+                const descriptionElement = item.querySelector('.item-details .description p');
+                const descriptionText = descriptionElement ? descriptionElement.textContent : '';
+
+                // Updated selectors to target the new .detail-value span
+                const dateElement = item.querySelector('.item-details .general-info ul li:nth-child(1) .detail-value');
+                const dateText = dateElement ? dateElement.textContent : '';
+
+                const techCompanyElement = item.querySelector('.item-details .general-info ul li:nth-child(2) .detail-value');
+                const techCompanyText = techCompanyElement ? techCompanyElement.textContent : '';
+
+                const roleElement = item.querySelector('.item-details .general-info ul li:nth-child(3) .detail-value');
+                const roleText = roleElement ? roleElement.textContent : 'N/A';
+                
+                const linkElement = item.querySelector('.item-details .general-info ul li:nth-child(4) .detail-value');
+                const linkHtml = linkElement ? linkElement.innerHTML : ''; // Use innerHTML for links to preserve the <a> tag
+
+
+                const itemType = item.dataset.type;
+
+                // Get the full-size image from the data-full-image attribute, fallback to src
+                const fullImageSrc = item.querySelector('img').dataset.fullImage || item.querySelector('img').src;
+                ppThumbnailImg.src = fullImageSrc;
+
+                ppTitle.textContent = item.querySelector('h3').textContent;
+                ppDescription.textContent = descriptionText;
+
+                // Populate dynamic fields
+                ppDate.textContent = dateText;
+                ppTechCompany.textContent = techCompanyText;
+                ppRole.textContent = roleText;
+                ppLink.innerHTML = linkHtml; // Use innerHTML to render the actual link
+
+                // Update parent span text for clarity based on item type
+                ppDate.parentNode.querySelector('span:first-child').textContent = itemType === 'project' ? 'Created -' : 'Date -';
+                ppTechCompany.parentNode.querySelector('span:first-child').textContent = itemType === 'project' ? 'Technologies used -' : 'Company -';
+                ppRole.parentNode.querySelector('span:first-child').textContent = 'Role -';
+                ppLink.parentNode.querySelector('span:first-child').textContent = itemType === 'project' ? 'Demo -' : 'Link -';
+
+
+                portfolioPopup.classList.add('active');
+            });
+        });
+
+
+        ppCloseButton.addEventListener('click', () => {
+            portfolioPopup.classList.remove('active');
+        });
+
+        // Close popup when clicking outside the inner content
+        portfolioPopup.addEventListener('click', (event) => {
+            if (event.target === portfolioPopup) {
+                portfolioPopup.classList.remove('active');
+            }
+        });
+
+        // Global hue offset for the rainbow effect, shared between both rains
+        let globalHueOffset = 0;
+        let animationFrameIds = {}; // Store animation frame IDs for each rain canvas
+
+        // Main rain drawing logic for both upward and downward rain
+        function startRainLogic(canvas, direction) {
+            const ctx = canvas.getContext('2d');
+            const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:",.<>?/~`';
+            const fontSize = 16;
+            let columns = Math.floor(canvas.width / fontSize);
+
+            let drops = [];
+            for (let i = 0; i < columns; i++) {
+                if (direction === 'down') {
+                    // Start drops from the top of this canvas
+                    drops[i] = { y: Math.floor(Math.random() * (canvas.height / fontSize)), charIndex: Math.floor(Math.random() * characters.length) };
+                } else { // 'up'
+                    // Start drops from the bottom of this canvas
+                    drops[i] = { y: Math.floor(Math.random() * (canvas.height / fontSize)) + (canvas.height / fontSize * 0.5), charIndex: Math.floor(Math.random() * characters.length) };
+                }
+            }
+
+            function draw() {
+                // Dim the old characters with transparency
+                ctx.fillStyle = 'rgba(26, 32, 44, 0.08)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.font = `${fontSize}px monospace`;
+                // Apply global hue offset for synchronized color shift
+                globalHueOffset = (globalHueOffset + 0.3) % 360;
+
+                for (let i = 0; i < drops.length; i++) {
+                    const drop = drops[i];
+                    const text = characters.charAt(drop.charIndex);
+                    const x = i * fontSize;
+                    let y = drop.y * fontSize;
+
+                    ctx.fillStyle = `hsl(${globalHueOffset}, 100%, 70%)`; // Global color for all drops
+                    ctx.fillText(text, x, y);
+
+                    if (direction === 'down') {
+                        drop.y += 0.5; // Slower speed
+                        // Reset to top if drop goes beyond canvas height (with a random chance)
+                        if (drop.y * fontSize > canvas.height && Math.random() > 0.985) {
+                            drop.y = 0;
+                            drop.charIndex = Math.floor(Math.random() * characters.length); // New character
+                        }
+                    } else { // 'up'
+                        drop.y -= 0.5; // Slower speed
+                        // Reset to bottom if drop goes beyond canvas top (with a random chance)
+                        if (drop.y * fontSize < 0 && Math.random() > 0.985) {
+                            drop.y = canvas.height / fontSize; // Reset to the logical bottom of its own canvas
+                            drop.charIndex = Math.floor(Math.random() * characters.length); // New character
+                        }
+                    }
+                }
+                // Request next frame, storing the ID for cancellation
+                animationFrameIds[canvas.id] = requestAnimationFrame(draw);
+            }
+            draw(); // Start the drawing loop
+        }
+
+        // Function to set up and start both rain canvases based on scroll positions
+        function setupRainCanvases() {
+            const downCanvas = document.getElementById('codeRainCanvasDownward');
+            const upCanvas = document.getElementById('codeRainCanvasUpward');
+
+            const achievementsSection = document.getElementById('achievements');
+            const portfolioSection = document.getElementById('portfolio'); // New reference for portfolio section
+            const contactSection = document.getElementById('contact'); // Keep for potential future use or fallback
+
+            let stopPointYForDownRain = 0; // Where downward rain should stop (document coordinate)
+            let startPointYForUpRain = 0; // Where upward rain should start (document coordinate)
+
+            if (achievementsSection) {
+                // Downward rain should stop at the BOTTOM of the achievements section
+                stopPointYForDownRain = achievementsSection.getBoundingClientRect().bottom + window.scrollY;
+            } else {
+                 stopPointYForDownRain = document.documentElement.scrollHeight * 0.7; // Fallback
+            }
+
+            if (portfolioSection) {
+                // Upward rain should start at the TOP of the projects section
+                startPointYForUpRain = portfolioSection.getBoundingClientRect().top + window.scrollY;
+            } else if (contactSection) {
+                // Fallback to contact section if portfolio not found
+                startPointYForUpRain = contactSection.getBoundingClientRect().top + window.scrollY;
+            } else {
+                 startPointYForUpRain = document.documentElement.scrollHeight * 0.8; // General fallback
+            }
+
+            // Ensure the upward rain starts below the downward rain if by some chance they overlap negatively
+            if (startPointYForUpRain < stopPointYForDownRain) {
+                startPointYForUpRain = stopPointYForDownRain; // Make them meet at least
+            }
+
+            // The rainContainer is fixed to the viewport, so canvas positions and heights are relative to the viewport.
+            // We need to convert document scroll coordinates to viewport-relative coordinates for canvases.
+
+            // Downward rain: from top of viewport to the calculated stop point relative to viewport
+            const downCanvasHeight = Math.max(0, stopPointYForDownRain - window.scrollY);
+            downCanvas.style.top = '0px';
+            downCanvas.style.height = `${downCanvasHeight}px`;
+            downCanvas.width = downCanvas.offsetWidth;
+            downCanvas.height = downCanvas.offsetHeight;
+
+
+            // Upward rain: from calculated start point relative to viewport to bottom of viewport
+            const upCanvasTop = Math.max(0, startPointYForUpRain - window.scrollY);
+            const upCanvasHeight = Math.max(0, window.innerHeight - upCanvasTop); // From upCanvasTop to bottom of viewport
+            upCanvas.style.top = `${upCanvasTop}px`;
+            upCanvas.style.height = `${upCanvasHeight}px`;
+            upCanvas.width = upCanvas.offsetWidth;
+            upCanvas.height = upCanvas.offsetHeight;
+            
+
+            // Clear any existing animations before starting new ones
+            for (const id in animationFrameIds) {
+                cancelAnimationFrame(animationFrameIds[id]);
+            }
+            animationFrameIds = {}; // Reset stored IDs
+
+            // Start downward rain animation
+            if (downCanvasHeight > 0) {
+                startRainLogic(downCanvas, 'down');
+            }
+            // Start upward rain animation
+            if (upCanvasHeight > 0) {
+                startRainLogic(upCanvas, 'up');
+            }
+        }
+
+        // Custom profession animation (fade-in, fade-out, loop)
+        const professionElement = document.getElementById('profession-text');
+        const professions = ['WEB DEVELOPER', 'DESIGNER']; // Updated professions
+        let currentProfessionIndex = 0;
+
+        function animateProfessions() {
+            // Clear current text and animations
+            professionElement.innerHTML = '';
+            
+            const currentText = professions[currentProfessionIndex];
+            // Split "WEB DEVELOPER" into "WEB" and "DEVELOPER" for individual spans
+            const words = currentText.split(' ').map(word => word.trim()).filter(word => word.length > 0); 
+            
+            let delay = 0;
+            words.forEach((word, i) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.textContent = word + (i < words.length - 1 ? ' ' : ''); // Add space after each word except the last
+                wordSpan.classList.add('word-span'); // Class for initial hidden state and base styling
+                professionElement.appendChild(wordSpan);
+
+                // Trigger fade-in animation for each word
+                setTimeout(() => {
+                    wordSpan.style.animation = 'fadeInWord 1s ease-out forwards';
+                }, delay);
+                delay += 250; // Stagger the appearance of each word more tightly
+            });
+
+            // After all words have faded in, wait, then fade them out
+            setTimeout(() => {
+                let fadeOutDelay = 0;
+                const spans = professionElement.querySelectorAll('.word-span');
+                spans.forEach((span, i) => {
+                    setTimeout(() => {
+                        span.style.animation = 'fadeOutWord 1s ease-in forwards';
+                    }, fadeOutDelay);
+                    fadeOutDelay += 100; // Stagger fade out more tightly
+                });
+
+                // After all words have faded out, move to the next profession
+                setTimeout(() => {
+                    currentProfessionIndex = (currentProfessionIndex + 1) % professions.length;
+                    animateProfessions(); // Start animation for the next profession
+                }, fadeOutDelay + 500); // Wait for fade-out to complete plus a small pause before next cycle
+            }, delay + 1500); // Wait for all words to be visible + display duration before starting fade-out
+        }
+
+
+        // Intersection Observer for fade-in effect on scroll
+        const fadeInObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the item is visible
+        });
+
+
+        // --- Page Initialization Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageLoader = document.getElementById('page-loader');
+            const mainContent = document.getElementById('main-content');
+            const exploreButton = document.getElementById('explore-button');
+            const rainContainer = document.getElementById('rainContainer'); // Get the rain container
+
+            // Initially hide body overflow to prevent scrolling behind the loader
+            document.body.style.overflow = 'hidden';
+            mainContent.classList.add('hidden'); // Hide main content initially
+            mainContent.classList.remove('opacity-100', 'pointer-events-auto'); // Ensure these are not present
+            pageLoader.classList.remove('hidden-loader'); // Ensure loader is visible
+
+            // Initial setup of rain canvases (for loader, then for full content)
+            // Call setupRainCanvases once initially for fixed loader screen
+            setupRainCanvases();
+
+            exploreButton.addEventListener('click', () => {
+                pageLoader.classList.add('hidden-loader'); // Fade out loader
+                // Give a slight delay for the fade-out transition before showing main content
+                setTimeout(() => {
+                    // This setTimeout will run AFTER the loader fade-out transition (700ms)
+                    // Add an additional 2-second delay here before showing the main content
+                    setTimeout(() => {
+                        mainContent.classList.remove('hidden'); // Show main content container
+                        mainContent.classList.add('opacity-100', 'pointer-events-auto'); // Fade in content and enable interaction
+                        document.body.style.overflow = ''; // Restore body overflow
+
+                        // After main content is visible and layout is rendered, set up rain for full document height
+                        setupRainCanvases();
+
+                        animateProfessions(); // Start the profession animation on the main content
+                        // Observe all elements with the fade-in-element class
+                        document.querySelectorAll('.fade-in-element').forEach(element => {
+                            fadeInObserver.observe(element);
+                        });
+
+                        // For the initial home page image, ensure it fades in right away if in viewport
+                        const homeImage = document.querySelector('#home .profile-image-container img');
+                        if (homeImage && homeImage.getBoundingClientRect().top < window.innerHeight) {
+                            homeImage.classList.add('is-visible');
+                        }
+                    }, 2000); // 2-second delay for showing portfolio
+                }, 700); // Original loader fade-out duration
+            });
+
+            // Update rain canvas heights on window resize or scroll
+            window.addEventListener('resize', setupRainCanvases);
+            window.addEventListener('scroll', setupRainCanvases); // Added scroll listener for dynamic heights
+        });
+
+        // Handle window focus/blur for canvas animation pause/resume
+        window.addEventListener('focus', () => {
+            // Restart animations only if they were paused
+            if (Object.keys(animationFrameIds).length === 0) {
+                setupRainCanvases(); // Re-measure and restart both rains
+            }
+        });
+
+        window.addEventListener('blur', () => {
+            // Stop all current animations
+            for (const id in animationFrameIds) {
+                cancelAnimationFrame(animationFrameIds[id]);
+            }
+            animationFrameIds = {}; // Clear stored IDs
+        });
+    </script>
+</body>
+</html>
